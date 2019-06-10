@@ -57,6 +57,7 @@ const   cssDest                 =      './nStatic/css';
         sassSource              =      './webStyle/**/**/*.scss';
         sassBase                =      './webStyle/main.scss';
         tsSource                =      './webTS/**/*.ts';
+        jsSource                =      './webJS/**/*.js';
         tsCompilerOuts          =      './webTS/_compiler/**/*.ts';
         jsCompilerOuts          =      './webTS/_compiler/**/*.js';
         compilerEs6Out          =      './webTS/_compiler/es6_out';
@@ -65,9 +66,11 @@ const   cssDest                 =      './nStatic/css';
         jQSource                =      './node_modules/jquery/dist/jquery.min.js';
         compilerEs5Out          =      './webTS/_compiler/es5_out';
         mainEs5Capture          =      './webTS/_compiler/es5_out/main.js';
+        mainEs5JSCapture        =      './webTS/_compiler/es5_out/mainjs.js';
         crossAppJsCapture       =      './webApp/src/**/**/*.js';
         webAppDistOut           =      './webApp/dist/**/*.*';
         preBundleJsAsset        =      `${jsDest}/main.js`;
+        preBundleVanillaJSAsset =      `${jsDest}/mainjs.js`;
         staticLocals            =      `${jsDest}/*.js`;
         karma                   =      './webApp/src/karma.conf.js';
 
@@ -120,6 +123,7 @@ gulp.task('development-false-true', function() {
         ---------------------------------------`,
         'YELLOW'));
     gulp.watch(tsSource, ['buildDevTypeScript']),
+    gulp.watch(jsSource, ['buildDevTypeScript']),
     gulp.watch(sassSource, ['sassDevBuild'])
 }) 
 
@@ -427,7 +431,8 @@ gulp.task('ts-to-es6-prod', function() {
 gulp.task('es6-to-es5', function() {
     return gulp.src(
             [
-                es6TranspileCapture
+                es6TranspileCapture,
+                jsSource
             ])
         .pipe(babel({
             presets: [
@@ -440,7 +445,7 @@ gulp.task('es6-to-es5', function() {
 });
 
 gulp.task('es5-concat', function() {
-    return gulp.src(mainEs5Capture)
+    return gulp.src([mainEs5Capture, mainEs5JSCapture])
         .pipe(sourcemaps.init())
         .pipe(rollup({
             plugins: [ babel2() ]
@@ -453,7 +458,7 @@ gulp.task('es5-concat', function() {
 });
 
 gulp.task('es5-concat-prod', function() {
-    return gulp.src(mainEs5Capture)
+    return gulp.src([mainEs5Capture, mainEs5JSCapture])
         .pipe(rollup({
             plugins: [ babel2() ]
         }, 
@@ -464,13 +469,13 @@ gulp.task('es5-concat-prod', function() {
 });
 
 gulp.task('jquery-concat', function() {
-    return gulp.src([jQSource, preBundleJsAsset])
+    return gulp.src([jQSource, preBundleJsAsset, preBundleVanillaJSAsset])
     .pipe(concat(jsBundleName))
     .pipe(gulp.dest(jsDest));
 })
 
 gulp.task('jquery-concat-compress', function() {
-    return gulp.src([jQSource, preBundleJsAsset])
+    return gulp.src([jQSource, preBundleJsAsset, preBundleVanillaJSAsset])
     .pipe(uglify())
     .pipe(concat(jsBundleName))
     .pipe(gulp.dest(jsDest));
@@ -480,7 +485,7 @@ gulp.task('post-clean-dev', function() {
     console.log(color(`
         ∴ Cleaning Development environment.
     `, devColor)); 
-    gulp.src([preBundleJsAsset, jsFolderCapture, crossAppJsCapture], {
+    gulp.src([preBundleJsAsset, preBundleVanillaJSAsset, jsFolderCapture, crossAppJsCapture], {
         read: false
     })
     .pipe(clean({force: true}));
@@ -490,7 +495,7 @@ gulp.task('post-clean-prod', function() {
     console.log(color(`
         ∴ Cleaning Production environment.
     `, prodColor)); 
-    gulp.src([preBundleJsAsset, jsFolderCapture, crossAppJsCapture, karma], {
+    gulp.src([preBundleJsAsset, preBundleVanillaJSAsset, jsFolderCapture, crossAppJsCapture, karma], {
         read: false
     })
     .pipe(clean({force: true}));
