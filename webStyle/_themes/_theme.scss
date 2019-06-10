@@ -1,0 +1,69 @@
+// This file is for defining thematic elements.
+
+// Color variables.
+$white                  :                   #FFFFFF;
+$black                  :                   #000000;
+$slate                  :                   #343434;
+$slate-grey             :                   #686f74;
+$light-grey             :                   #F2F2F2;
+$shadow-grey            :                   #D8D8D8;
+$rouge                  :                   #b42546;
+$purplish-red           :                   #b00663;
+$violet                 :                   #4F1E79;
+$purple-smoke           :                   #5e1b72;
+
+
+.full {
+    max-width: 100%;
+    min-width: 100%;
+    display: inline-block;
+    vertical-align: top;
+  }
+  
+  .wide {
+    max-width: 66.666%;
+    min-width: 66.666%;
+    display: inline-block;
+    vertical-align: top;
+    @include media-breakpoint-down(md) {
+      max-width: 100%;
+      min-width: 100%;
+      display: inline-block;
+    }
+  }
+  
+  .half {
+    max-width: 50%;
+    min-width: 50%;
+    display: inline-block;
+    vertical-align: top;
+    @include media-breakpoint-down(sm) {
+      max-width: 100%;
+      min-width: 100%;
+      display: inline-block;
+    }
+  }
+  
+  .third {
+    max-width: 33.333%;
+    min-width: 33.333%;
+    display: inline-block;
+    vertical-align: top;
+    @include media-breakpoint-down(sm) {
+      max-width: 100%;
+      min-width: 100%;
+      display: inline-block;
+    }
+  }
+  
+  .quarter {
+    max-width: 25%;
+    min-width: 25%;
+    display: inline-block;
+    vertical-align: top;
+    @include media-breakpoint-down(md) {
+      max-width: 100%;
+      min-width: 100%;
+      display: inline-block;
+    }
+  }
