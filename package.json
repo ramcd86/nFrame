@@ -1,7 +1,7 @@
 {
-  "name": "nframework",
-  "version": "1.0.0",
-  "description": "A modern front-end framework for use by Made To Engage",
+  "name": "nFrame",
+  "version": "1.1.0",
+  "description": "A modern front-end toolkit for use by Made To Engage",
   "main": "index.js",
   "config": {
     "environment": "development",
