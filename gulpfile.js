@@ -545,7 +545,7 @@ gulp.task('sassProdBuild', function () {
     console.log(color(`
         ∴ Cleaning CSS folder
     `, prodColor)); 
-    gulp.src('../Static/css/bundle.css', {
+    gulp.src(cssBundleLocal, {
         read: false
     })
     .pipe(clean({force: true}));
